@@ -40,12 +40,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($username) || empty($password)) {
         echo "Please fill in all fields";
     } else {
-        // if the input is not empty, we has the password and insert 
-        // both the username and the hashed password into our database
+        // if the input is not empty, we hash the password for privacy
+        // and insert both the username and the hashed password into our database
         $hash = password_hash($password, PASSWORD_DEFAULT);
         $sql = "INSERT INTO users (user, password) VALUES ('$username', '$hash')";
-        mysqli_query($connection, $sql);
-        echo "User registered successfully!";
+
+        // we use a try/catch statement to handle any errors that may occur
+        // like when we have a duplicate username
+        try {
+            mysqli_query($connection, $sql);
+            echo "User registered successfully!";
+        } catch (mysqli_sql_exception) {
+            echo "This username is taken";
+        }
     }
 }
 
