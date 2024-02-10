@@ -47,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // like when we have a duplicate username
         try {
             mysqli_query($connection, $sql);
-            echo "User registered successfully!";
+            echo '<div style="font-family: Courier New;"; "font-size: 20px">User registered successfully!</div>';
         } catch (mysqli_sql_exception) {
             echo "This username is taken";
         }
